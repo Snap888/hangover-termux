@@ -1,0 +1,86 @@
+diff --git a/configure b/configure
+index 3610c533655..714bb0bae14 100755
+--- a/configure
++++ b/configure
+@@ -22417,7 +22417,7 @@ programs/winetest/build.nfo:
+ 	@-\$(CC) -v 2>\$@
+ dlls/wineandroid.drv/wine-debug.apk: dlls/wineandroid.drv/build.gradle ${wine_srcdir}dlls/wineandroid.drv/AndroidManifest.xml ${wine_srcdir}dlls/wineandroid.drv/WineActivity.java ${wine_srcdir}dlls/wineandroid.drv/wine.svg
+ 	cd dlls/wineandroid.drv && gradle -q -Psrcdir=$srcdir assembleDebug
+-	mv dlls/wineandroid.drv/build/outputs/apk/wine-debug.apk \$@"
++	mv dlls/wineandroid.drv/build/outputs/apk/debug/wine-debug.apk \$@"
+ 
+ 
+ TAGSFLAGS="--langmap='c:+.idl.l.rh,make:(Make*.in)'"
+diff --git a/configure.ac b/configure.ac
+index e5b773f310e..69e21963ddd 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -3668,7 +3668,7 @@ programs/winetest/build.nfo:
+ 	@-\$(CC) -v 2>\$[@]
+ dlls/wineandroid.drv/wine-debug.apk: dlls/wineandroid.drv/build.gradle ${wine_srcdir}dlls/wineandroid.drv/AndroidManifest.xml ${wine_srcdir}dlls/wineandroid.drv/WineActivity.java ${wine_srcdir}dlls/wineandroid.drv/wine.svg
+ 	cd dlls/wineandroid.drv && gradle -q -Psrcdir=$srcdir assembleDebug
+-	mv dlls/wineandroid.drv/build/outputs/apk/wine-debug.apk \$[@]])
++	mv dlls/wineandroid.drv/build/outputs/apk/debug/wine-debug.apk \$[@]])
+ 
+ dnl Misc rules
+ 
+diff --git a/dlls/wineandroid.drv/build.gradle.in b/dlls/wineandroid.drv/build.gradle.in
+index 662e8b7ea22..be40b046382 100644
+--- a/dlls/wineandroid.drv/build.gradle.in
++++ b/dlls/wineandroid.drv/build.gradle.in
+@@ -20,15 +20,25 @@
+ 
+ apply plugin: 'com.android.application'
+ 
++allprojects {
++    repositories {
++        jcenter()
++        mavenLocal()
++        google()
++    }
++}
++
+ buildscript
+ {
+     repositories
+     {
+         jcenter()
++        mavenLocal()
++        google()
+     }
+     dependencies
+     {
+-        classpath "com.android.tools.build:gradle:2.2.1"
++        classpath "com.android.tools.build:gradle:7.3.0"
+     }
+ }
+ 
+diff --git a/dlls/winepulse.drv/Makefile.in b/dlls/winepulse.drv/Makefile.in
+index d9cf2a02224..143a97ec736 100644
+--- a/dlls/winepulse.drv/Makefile.in
++++ b/dlls/winepulse.drv/Makefile.in
+@@ -1,7 +1,7 @@
+ MODULE    = winepulse.drv
+ UNIXLIB   = winepulse.so
+ IMPORTS   = dxguid uuid winmm user32 advapi32 ole32
+-UNIX_LIBS    = $(PULSE_LIBS) $(PTHREAD_LIBS) -lm
++UNIX_LIBS    = $(PULSE_LIBS) $(PTHREAD_LIBS) -lm -lpulse
+ UNIX_CFLAGS  = $(PULSE_CFLAGS)
+ 
+ C_SRCS = \
+diff --git a/dlls/winex11.drv/Makefile.in b/dlls/winex11.drv/Makefile.in
+index 1fb38c91144..e1b56d1ac7a 100644
+--- a/dlls/winex11.drv/Makefile.in
++++ b/dlls/winex11.drv/Makefile.in
+@@ -3,7 +3,7 @@ UNIXLIB   = winex11.so
+ IMPORTS   = uuid user32 gdi32 win32u
+ DELAYIMPORTS = comctl32 ole32 shell32 imm32
+ UNIX_CFLAGS  = $(X_CFLAGS)
+-UNIX_LIBS    = -lwin32u $(X_LIBS) $(X_EXTRA_LIBS) $(PTHREAD_LIBS) -lm
++UNIX_LIBS    = -lwin32u $(X_LIBS) $(X_EXTRA_LIBS) $(PTHREAD_LIBS) -lm -landroid-shmem
+ 
+ C_SRCS = \
+ 	bitblt.c \
+diff --git a/include/langinfo.h b/include/langinfo.h
+new file mode 100644
+index 00000000000..e69de29bb2d
