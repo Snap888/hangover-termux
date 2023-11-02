@@ -59,7 +59,8 @@ To build Hangover Wine you need:
 
 - The dependencies to [build](https://wiki.winehq.org/Building_Wine#Satisfying_Build_Dependencies) a 64 bit Wine
 - [llvm-mingw](https://github.com/mstorsjo/llvm-mingw) for PE cross-compilation (downlaod & unpack a release, but don't use the .zip files, they are for Windows)
-- About 5GB of disk space
+- [Android Studio](https://developer.android.com/studio/index.html), [Android NDK](https://developer.android.com/ndk/index.html), Gradle
+- About 10GB of disk space
 
 If you don't want to run 32-Bit ARM applications, you can drop ",arm" from the configure line.
 
