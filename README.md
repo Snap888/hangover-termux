@@ -58,32 +58,13 @@ And note while Box64 is integrated, you can build other emulators (currently FEX
 To build Hangover Wine you need:
 
 - The dependencies to [build](https://wiki.winehq.org/Building_Wine#Satisfying_Build_Dependencies) a 64 bit Wine
-- [llvm-mingw](https://github.com/mstorsjo/llvm-mingw) for PE cross-compilation (downlaod & unpack a release, but don't use the .zip files, they are for Windows)
+- [llvm-mingw](https://github.com/mstorsjo/llvm-mingw) for PE cross-compilation (download & unpack a release, but don't use the .zip files, they are for Windows)
 - [Android Studio](https://developer.android.com/studio/index.html), [Android NDK](https://developer.android.com/ndk/index.html), Gradle
 - Libraries and headers from Termux ($PREFIX/lib and $PREFIX/include) to support X11, Pulseaudio, etc.
 - About 10GB of disk space
 
-If you don't want to run 32-Bit ARM applications, you can drop ",arm" from the configure line.
-
-on x86-64 (from the Hangover repository):
-```bash
-$ mkdir -p wine/build
-$ cd wine/build
-$ export PATH=/path/to/llvm-mingw/bin:$PATH
-$ ../configure --enable-win64 --disable-tests --with-mingw --enable-archs=i386,x86_64,arm
-$ make -j$(nproc)
-$ sudo env PATH="$PATH" make install
-```
-
-on ARM64 (from the Hangover repository):
-```bash
-$ mkdir -p wine/build
-$ cd wine/build
-$ export PATH=/path/to/llvm-mingw/bin:$PATH
-$ ../configure --disable-tests --with-mingw --enable-archs=i386,aarch64,arm
-$ make -j$(nproc)
-$ sudo env PATH="$PATH" make install
-```
+First of all, you need to build Wine Native using the script "build_wine_native.sh". This is required to obtain wine-tools.
+Then you can start building Wine Hangover using the "build_wine_termux.sh" script. Before building, the "Fix_build.patch" must be applied to fix errors.
 
 #### 6.2) QEMU (optional)
 To build QEMU as a library you need:
