@@ -6,6 +6,9 @@ SRCDIR=/home/$USER/wine-hangover-8.17
 
 cd $SRCDIR
 
+# Patch Wine source to fix build
+git apply -v /home/$USER/Fix_build.patch
+
 # Path to NDK bin and llvm-mingw
 export PATH=/home/$USER/android-ndk-r23c/toolchains/llvm/prebuilt/linux-x86_64/bin:/home/$USER/llvm-mingw/bin:$PATH
 
@@ -17,17 +20,20 @@ export ANDROID_HOME=/home/$USER/Android/Sdk
 
 export CFLAGS="-O2"
 
-# Termux headers and libs (Freetype and Pulseaudio)
+# Termux headers and libs (Freetype, Pulseaudio, gnutls)
 export FREETYPE_CFLAGS="-I /home/$USER/termux/include/freetype2"
 export FREETYPE_LIBS="-L /home/$USER/termux/lib"
 export PULSE_CFLAGS="-I /home/$USER/termux/include"
 export PULSE_LIBS="-L /home/$USER/termux/lib"
+export GNUTLS_CFLAGS="-I /home/$USER/termux/include"
+export GNUTLS_LIBS="-L /home/$USER/termux/lib"
 
 # Configure with X11 headers and libs from Termux
-./configure --host=aarch64-linux-android --with-wine-tools=/home/$USER/wine-native --disable-tests	\
-		CXX=aarch64-linux-android28-clang++ CC=aarch64-linux-android28-clang			\
-		--with-mingw --enable-archs=i386,aarch64 --with-opengl --with-pulse --with-x		\
-		--with-xcomposite --with-xcursor --with-xfixes --with-xrandr --with-xrender		\
+./configure --host=aarch64-linux-android --with-wine-tools=/home/$USER/wine-native 		\
+		CXX=aarch64-linux-android28-clang++ CC=aarch64-linux-android28-clang 	 	\
+		--disable-tests --with-mingw --enable-archs=i386,aarch64 --with-gnutls 	 	\
+		--with-opengl --with-osmesa --with-pulse --with-x --with-xcomposite 		\
+		--with-xcursor --with-xfixes --with-xrandr --with-xrender --with-xinerama 	\
 		--x-includes="/home/$USER/termux/include" --x-libraries="/home/$USER/termux/lib" 
 
 make -j`nproc` && make DESTDIR=~/wine_build install
