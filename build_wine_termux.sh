@@ -2,7 +2,7 @@
 # Script based on https://blog.joshumax.me/general/2018/01/19/building-wine-3-0-on-android.html
 # and https://github.com/AndreRH/hangover/blob/8b38d20d5f5f1a5a546ee8e62a6623d2a9bec1bf/build.android.sh
 
-SRCDIR=/home/$USER/wine-hangover-8.17
+SRCDIR=/home/$USER/wine-hangover-8.19
 
 cd $SRCDIR
 
