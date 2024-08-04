@@ -25,3 +25,8 @@ jobs:
       run: build_wine_termux.sh
 
 
+          sha256sum *.tar.xz
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Wine-Git-Proot
+          path: ./*.tar.xz
