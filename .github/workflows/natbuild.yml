@@ -23,3 +23,5 @@ jobs:
         sudo apt install libepoxy-dev libglib2.0-dev libsdl2-dev ninja-build clang-15
     - name: build
       run: build_wine_termux.sh
+
+
