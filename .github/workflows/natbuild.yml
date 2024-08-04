@@ -1,0 +1,25 @@
+name: ubuntu-x86_64
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build_x86_64:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: free disk space
+      run: |
+        sudo swapoff -a
+        sudo rm -f /swapfile
+        sudo apt clean
+        docker rmi $(docker image ls -aq)
+        df -h
+    - name: install dependencies
+      run: |
+        sudo apt update
+        sudo apt install libepoxy-dev libglib2.0-dev libsdl2-dev ninja-build clang-15
+    - name: get shallow submodule
+      run: git submodule update --init --recursive --depth 1
